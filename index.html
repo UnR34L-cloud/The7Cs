@@ -9,164 +9,140 @@
         :root { --primary: #1a2a3a; --accent: #c5a059; --bg: #f4f7f6; --text: #333; }
         body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
 
-        /* HERO & SYNCED BLUR SECTION */
+        /* HERO & SYNCED BLUR */
         .hero-viewport { position: relative; height: 75vh; width: 100%; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
         .hero-bg-blur { position: absolute; width: 110%; height: 110%; background-size: cover; background-position: center; filter: blur(25px) brightness(0.4); z-index: 1; opacity: 0; transition: opacity 1.2s ease-in-out; }
         .hero-main-img { position: relative; z-index: 2; max-width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 1.2s ease-in-out; }
         .hero-viewport.active .hero-bg-blur, .hero-viewport.active .hero-main-img { opacity: 1; }
-        
         .hero-content { position: absolute; z-index: 10; color: white; text-align: center; padding: 12px 25px; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: inline-block; max-width: 90%; background: rgba(0,0,0,0.5); }
-        .hero-content h1 { font-size: 2.5rem; margin: 0; text-transform: none; letter-spacing: 1px; }
+        .hero-content h1 { font-size: 2.8rem; margin: 0; text-transform: none; letter-spacing: 1px; }
 
+        /* RATINGS & REVIEWS */
         .ratings-outer { position: relative; overflow: hidden; width: 100%; padding: 60px 0; display: flex; justify-content: center; z-index: 20; }
         .ratings-blur-bg { position: absolute; top: -20%; left: -5%; right: -5%; bottom: -20%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.6); z-index: -1; transition: background-image 1.2s ease-in-out; }
-        
-        /* GALLERY GRID */
-        .container { max-width: 1100px; margin: auto; padding: 60px 20px; }
-        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 30px; }
-        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: 0.3s; }
-        .gallery-grid img:hover { transform: scale(1.02); }
-        .view-more-btn { display: block; margin: 30px auto; padding: 12px 35px; border: 2px solid var(--accent); background: white; border-radius: 50px; cursor: pointer; font-weight: bold; }
+        .rating-box { background: rgba(255, 255, 255, 0.95); padding: 20px 40px; border-radius: 12px; text-align: center; border-bottom: 4px solid var(--accent); margin: 0 10px; }
+        .reviews-section { background: var(--primary); color: white; padding: 60px 20px; text-align: center; }
+        .review-text { font-style: italic; font-size: 1.1rem; margin-bottom: 20px; display: none; }
+        .review-text.active { display: block; animation: fadeIn 1s; }
 
-        /* MOBILE ADJUSTMENTS */
+        /* CONTENT SECTIONS */
+        .container { max-width: 1100px; margin: auto; padding: 40px 20px; }
+        h2 { text-align: center; color: var(--primary); margin-bottom: 40px; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; }
+        .card { background: white; padding: 20px; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .amenity-list { list-style: none; padding: 0; }
+        .amenity-list li { margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .amenity-list i { color: var(--accent); width: 20px; }
+
+        /* GALLERY */
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 10px; }
+        .gallery-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; cursor: pointer; }
+
         @media (max-width: 768px) {
-            .hero-viewport { display: flex; flex-direction: column; height: auto; }
-            .hero-content { position: relative; width: 100%; border-radius: 0; padding: 40px 20px; box-sizing: border-box; order: 1; background: none; overflow: hidden; }
-            .hero-mobile-blur-bg { display: block; position: absolute; top: -10%; left: -10%; right: -10%; bottom: -10%; background-size: cover; background-position: center; filter: blur(20px) brightness(0.4); z-index: -1; transition: background-image 1.2s ease-in-out; }
-            .hero-main-img { position: relative; width: 100%; height: 350px; object-fit: cover; order: 2; opacity: 1 !important; }
-            .ratings-outer { order: 3; padding: 30px 10px; }
+            .hero-viewport { height: auto; flex-direction: column; }
+            .hero-main-img { height: 300px; object-fit: cover; }
         }
 
-        /* LIGHTBOX */
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); flex-direction: column; justify-content: center; align-items: center; }
-        #lightbox-img { max-width: 85%; max-height: 80vh; border: 3px solid white; border-radius: 4px; object-fit: contain; }
-        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3.5rem; cursor: pointer; transform: translateY(-50%); padding: 30px; user-select: none; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
     </style>
 </head>
 <body>
 
 <section class="hero-viewport" id="hero-slider">
     <div class="hero-bg-blur"></div>
-    <img class="hero-main-img" src="" alt="The 7C's Retreat">
+    <img class="hero-main-img" src="" alt="7Cs Retreat">
     <div class="hero-content">
-        <div class="hero-mobile-blur-bg"></div>
         <h1>The 7C's Luxury Retreat</h1>
-        <p>Port Franks, Ontario — Your Private Sanctuary</p>
+        <p>Port Franks, Ontario</p>
     </div>
 </section>
 
 <div class="ratings-outer">
     <div class="ratings-blur-bg" id="ratings-bg"></div>
-    <div class="ratings-container">
-        </div>
+    <div class="rating-box"><strong>Airbnb</strong><br>4.96 / 5</div>
+    <div class="rating-box"><strong>VRBO</strong><br>10 / 10</div>
 </div>
+
+<section class="reviews-section">
+    <div id="review-slider">
+        <p class="review-text active">"Amazing place for a family stay. The kids loved the game room!" - Sarah</p>
+        <p class="review-text">"10/10! Spotless house and the host was very responsive." - Zoran</p>
+    </div>
+</section>
 
 <div class="container">
+    <h2>Luxury Amenities</h2>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fa fa-bed"></i> Sleeping</h3>
+            <ul class="amenity-list">
+                <li><i class="fa fa-check"></i> 5 Bedrooms (King Beds)</li>
+                <li><i class="fa fa-check"></i> High-end Linens</li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3><i class="fa fa-hot-tub"></i> Wellness</h3>
+            <ul class="amenity-list">
+                <li><i class="fa fa-check"></i> Private 4-Season Hot Tub</li>
+                <li><i class="fa fa-check"></i> Indoor Sauna Access</li>
+            </ul>
+        </div>
+    </div>
+
+    <h2>Nearby Activities</h2>
+    <div class="grid">
+        <div class="card"><h4>Port Franks Beach</h4><p>5 min drive to private sandy shores.</p></div>
+        <div class="card"><h4>Pinery Provincial Park</h4><p>10 min drive to world-class hiking.</p></div>
+        <div class="card"><h4>Grand Bend Strip</h4><p>15 min to shops and nightlife.</p></div>
+    </div>
+
     <h2>Gallery</h2>
     <div class="gallery-grid" id="main-gallery"></div>
-    <button class="view-more-btn" id="view-more-trigger">View Full Gallery</button>
-</div>
-
-<div id="lightbox">
-    <span class="lb-close" style="position:absolute; top:20px; right:30px; color:white; font-size:3rem; cursor:pointer;" onclick="closeLightbox()">&times;</span>
-    <span class="lb-btn" style="left:10px;" onclick="changeImage(-1)">&#10094;</span>
-    <img id="lightbox-img" src="">
-    <span class="lb-btn" style="right:10px;" onclick="changeImage(1)">&#10095;</span>
 </div>
 
 <script>
-    // CONFIGURATION
-    const imagePath = 'images/';
-    const fileExtension = '.heic'; // NOTE: Consider converting these to .jpg for browser compatibility
-    const totalImageCount = 101;
-    const missingImages = [70, 71];
-    const cottagePhotos = [];
-
-    // 1. Generate the dynamic list of images
-    for (let i = 1; i <= totalImageCount; i++) {
-        if (!missingImages.includes(i)) {
-            cottagePhotos.push(`${imagePath}${i}${fileExtension}`);
-        }
+    // IMAGE CONFIG - CHANGE TO .jpg AFTER CONVERTING YOUR FILES
+    const totalPhotos = 101;
+    const missing = [70, 71];
+    const photos = [];
+    for(let i=1; i<=totalPhotos; i++) {
+        if(!missing.includes(i)) photos.push(`images/${i}.jpg`);
     }
 
     let hI = 0;
-    let cur = 0;
-    const hv = document.getElementById('hero-slider');
-    const hb = hv.querySelector('.hero-bg-blur');
-    const hm = hv.querySelector('.hero-main-img');
-    const mb = hv.querySelector('.hero-mobile-blur-bg');
-    const rb = document.getElementById('ratings-bg');
+    const hv = document.getElementById('hero-slider'), hb = hv.querySelector('.hero-bg-blur'), hm = hv.querySelector('.hero-main-img'), rb = document.getElementById('ratings-bg');
 
-    // 2. Build the Gallery Grid
-    function buildGallery() {
-        const gallery = document.getElementById('main-gallery');
-        cottagePhotos.forEach((url, index) => {
-            const img = document.createElement('img');
-            img.src = url;
-            img.alt = `Cottage Photo ${index + 1}`;
-            img.loading = "lazy";
-            
-            // Initially hide images after the 9th one
-            if (index >= 9) {
-                img.style.display = 'none';
-                img.classList.add('hidden-img');
-            }
-            
-            img.onclick = () => { cur = index; openLightbox(); };
-            gallery.appendChild(img);
-        });
-    }
-
-    // 3. Synchronized Slideshow Logic
     function updateHero() {
         hv.classList.remove('active');
         setTimeout(() => {
-            const currentImg = cottagePhotos[hI];
-            const imgUrl = `url('${currentImg}')`;
-            
-            hb.style.backgroundImage = imgUrl; // Desktop sidebars
-            if(mb) mb.style.backgroundImage = imgUrl; // Mobile top bar
-            rb.style.backgroundImage = imgUrl; // Rating section background
-            hm.src = currentImg; // Clear center image
-            
+            const url = `url('${photos[hI]}')`;
+            hb.style.backgroundImage = url;
+            rb.style.backgroundImage = url;
+            hm.src = photos[hI];
             hv.classList.add('active');
-            // Cycles through the first 10 photos for the hero section
-            hI = (hI + 1) % 10; 
+            hI = (hI + 1) % 10;
         }, 600);
     }
 
-    // 4. Lightbox Functions
-    const lb = document.getElementById('lightbox');
-    const lbI = document.getElementById('lightbox-img');
-
-    function openLightbox() {
-        lb.style.display = 'flex';
-        lbI.src = cottagePhotos[cur];
-        document.body.style.overflow = 'hidden';
+    function buildGallery() {
+        const g = document.getElementById('main-gallery');
+        photos.forEach(url => {
+            const img = document.createElement('img');
+            img.src = url;
+            g.appendChild(img);
+        });
     }
 
-    function closeLightbox() {
-        lb.style.display = 'none';
-        document.body.style.overflow = 'auto';
-    }
+    // Review Slider
+    let rI = 0;
+    const revs = document.querySelectorAll('.review-text');
+    setInterval(() => {
+        revs[rI].classList.remove('active');
+        rI = (rI + 1) % revs.length;
+        revs[rI].classList.add('active');
+    }, 5000);
 
-    function changeImage(n) {
-        cur = (cur + n + cottagePhotos.length) % cottagePhotos.length;
-        lbI.src = cottagePhotos[cur];
-    }
-
-    // 5. View More Button
-    document.getElementById('view-more-trigger').onclick = function() {
-        document.querySelectorAll('.hidden-img').forEach(el => el.style.display = 'block');
-        this.style.display = 'none';
-    };
-
-    // Initialize
-    window.onload = () => {
-        buildGallery();
-        updateHero();
-        setInterval(updateHero, 5000); // Change image every 5 seconds
-    };
+    window.onload = () => { buildGallery(); updateHero(); setInterval(updateHero, 5000); };
 </script>
 </body>
 </html>
