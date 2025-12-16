@@ -96,7 +96,7 @@
         .hero-content h1 { font-size: 2.8rem; margin: 0; letter-spacing: 1.5px; font-weight: 600; }
         .hero-content p { margin: 8px 0 0 0; font-size: 1.2rem; opacity: 0.9; }
 
-        /* RATINGS BAR - LOGO SIZING FIX */
+        /* RATINGS BAR - VRBO LOGO SCALE UPDATE */
         .ratings-bar {
             position: relative;
             z-index: 3;
@@ -108,7 +108,7 @@
 
         .rating-box {
             background: rgba(255, 255, 255, 0.98);
-            padding: 25px 45px;
+            padding: 30px 50px; /* Increased padding for the larger logos */
             border-radius: 15px;
             text-align: center;
             border-bottom: 5px solid var(--accent);
@@ -118,19 +118,26 @@
             align-items: center;
             justify-content: center;
             gap: 15px;
-            min-width: 200px;
+            min-width: 220px; /* Wider box for larger visual impact */
         }
 
-        /* Uniform Logo Sizing */
-        .rating-box img {
-            height: 45px; /* Forced uniform height */
+        /* Airbnb remains professional size */
+        .rating-box img.logo-airbnb {
+            height: 45px;
             width: auto;
-            max-width: 140px;
+            object-fit: contain;
+        }
+
+        /* VRBO doubled in size as requested */
+        .rating-box img.logo-vrbo {
+            height: 90px; /* Doubled from 45px */
+            width: auto;
+            max-width: 280px;
             object-fit: contain;
         }
 
         .score-value {
-            font-size: 1.8rem;
+            font-size: 2rem;
             font-weight: bold;
             color: var(--primary);
         }
@@ -392,8 +399,9 @@
             .hero-content { width: 88%; top: 10px; padding: 15px; }
             .hero-content h1 { font-size: 1.7rem; }
             .ratings-bar { gap: 15px; padding: 25px 15px; }
-            .rating-box { padding: 15px; flex: 1; min-width: 0; font-size: 0.9rem; }
-            .rating-box img { height: 30px; }
+            .rating-box { padding: 20px 10px; flex: 1; min-width: 0; font-size: 0.9rem; }
+            .rating-box img.logo-airbnb { height: 35px; }
+            .rating-box img.logo-vrbo { height: 60px; }
             .action-link { padding: 12px 20px; font-size: 0.85rem; }
         }
     </style>
@@ -415,11 +423,11 @@
 
     <div class="ratings-bar">
         <div class="rating-box">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg" alt="Airbnb">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Airbnb_Logo_Bélo.svg" class="logo-airbnb" alt="Airbnb">
             <span class="score-value">4.96 / 5.0</span>
         </div>
         <div class="rating-box">
-            <img src="images/Vrbo.png" alt="Vrbo">
+            <img src="images/Vrbo.png" class="logo-vrbo" alt="Vrbo">
             <span class="score-value">10 / 10</span>
         </div>
     </div>
@@ -520,7 +528,7 @@
         <div class="activity-item">
             <span class="travel-time">WINERY TOURS</span>
             <h4>Shale Ridge & Dark Horse</h4>
-            <p>Enjoy local cider and wine tastings. Many guests recommend taking the short scenic drive to these award-winning estates.</p>
+            <p>Enjoy local cider and wine tastings. Many guests recommend taking the short scenic drive to these awards-winning estates.</p>
         </div>
         <div class="activity-item">
             <span class="travel-time">LOCAL FAVORITE</span>
