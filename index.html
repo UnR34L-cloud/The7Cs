@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The 7C's Luxury Retreat | Port Franks</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root { --primary: #1a2a3a; --accent: #c5a059; --bg: #f4f7f6; --text: #333; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
+
+        /* HERO SECTION (DESKTOP) */
+        .hero-viewport { position: relative; height: 75vh; width: 100%; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
+        .hero-bg-blur { 
+            position: absolute; width: 110%; height: 110%; 
+            background-size: cover; background-position: center; 
+            filter: blur(25px) brightness(0.4); 
+            z-index: 1; opacity: 0; transition: opacity 1.2s ease-in-out;
+        }
+        .hero-main-img { 
+            position: relative; z-index: 2; 
+            max-width: 100%; height: 100%; 
+            object-fit: contain; 
+            opacity: 0; transition: opacity 1.2s ease-in-out;
+        }
+        .hero-viewport.active .hero-bg-blur, .hero-viewport.active .hero-main-img { opacity: 1; }
+        
+        /* TITLE BOX */
+        .hero-content { 
+            position: absolute; z-index: 10; 
+            color: white; text-align: center; 
+            padding: 12px 25px; 
+            border-radius: 8px; 
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.2);
+            display: inline-block; 
+            max-width: 90%;
+            background: rgba(0,0,0,0.5);
+        }
+        .hero-content h1 { font-size: 2.8rem; margin: 0; text-transform: none; letter-spacing: 1px; line-height: 1.2; }
+        .hero-content p { font-size: 1.1rem; margin: 5px 0 0 0; font-weight: 300; }
+
+        /* SYNCED BLURRED RATINGS CONTAINER */
+        .ratings-outer {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            padding: 60px 0;
+            display: flex;
+            justify-content: center;
+            z-index: 20;
+        }
+        .ratings-blur-bg {
+            position: absolute;
+            top: -20%; left: -5%; right: -5%; bottom: -20%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(35px) brightness(0.6);
+            z-index: -1;
+            transition: background-image 1.2s ease-in-out;
+        }
+        .ratings-container { 
+            display: flex; 
+            justify-content: center; 
+            gap: 30px; 
+            width: 100%;
+            max-width: 1100px;
+        }
+        .rating-box { 
+            background: rgba(255, 255, 255, 0.95); /* Semi-transparent to let blur peek through */
+            padding: 20px 50px; 
+            border-radius: 12px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2); 
+            text-align: center; 
+            border-bottom: 4px solid var(--accent); 
+            min-width: 180px;
+        }
+        .score { font-size: 1.8rem; font-weight: bold; color: var(--primary); display: block; margin-top: 5px;}
+
+        /* MOBILE ADJUSTMENTS */
+        @media (max-width: 768px) {
+            .hero-viewport { display: flex; flex-direction: column; height: auto; background: var(--bg); }
+            .hero-content { 
+                position: relative; width: 100%; max-width: 100%; border-radius: 0; padding: 40px 20px; box-sizing: border-box; order: 1; background: none; overflow: hidden; 
+            }
+            .hero-mobile-blur-bg {
+                display: block; position: absolute; top: -10%; left: -10%; right: -10%; bottom: -10%; background-size: cover; background-position: center; filter: blur(20px) brightness(0.4); z-index: -1; transition: background-image 1.2s ease-in-out;
+            }
+            .hero-bg-blur { display: none; } 
+            .hero-main-img { position: relative; width: 100%; height: 350px; object-fit: cover; order: 2; opacity: 1 !important; }
+            .hero-content h1 { font-size: 1.8rem; }
+            
+            .ratings-outer { order: 3; padding: 40px 10px; }
+            .ratings-container { flex-direction: row; gap: 15px; }
+            .rating-box { padding: 15px 10px; min-width: 0; flex: 1; }
+        }
+
+        @media (min-width: 769px) { .hero-mobile-blur-bg { display: none; } }
+
+        /* TESTIMONIALS & OTHER SECTIONS */
+        .reviews-section { background: var(--primary); color: white; padding: 80px 20px; text-align: center; }
+        .review-container { max-width: 850px; margin: auto; position: relative; min-height: 180px; display: flex; align-items: center; justify-content: center; }
+        .review-text { position: absolute; width: 100%; opacity: 0; transform: scale(0.95); transition: all 1.2s ease; font-style: italic; font-size: 1.2rem; line-height: 1.6; }
+        .review-text.active { opacity: 1; transform: scale(1); }
+        .reviewer-name { display: block; margin-top: 20px; color: var(--accent); font-weight: bold; font-style: normal; font-size: 0.9rem; text-transform: uppercase; }
+
+        .container { max-width: 1100px; margin: auto; padding: 60px 20px; }
+        h2 { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: var(--primary); position: relative; }
+        h2::after { content: ''; width: 60px; height: 3px; background: var(--accent); position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); }
+
+        .amenity-section { background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 60px; }
+        .amenity-category-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; }
+        .amenity-cat h4 { color: var(--primary); border-bottom: 2px solid var(--accent); display: inline-block; margin-bottom: 15px; padding-bottom: 5px; }
+        .amenity-cat li { margin-bottom: 10px; font-size: 0.85rem; display: flex; align-items: center; gap: 10px; }
+        .amenity-cat i { color: var(--accent); width: 18px; text-align: center; list-style: none; }
+        ul { list-style: none; padding: 0; }
+
+        .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 40px; }
+        .guide-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
+        .guide-content { padding: 25px; }
+        .tag { display: inline-block; background: #eef2f5; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; color: var(--primary); margin-bottom: 12px; font-weight: 700; text-transform: uppercase; }
+
+        .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; margin-top: 30px; }
+        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: 0.4s; }
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); flex-direction: column; justify-content: center; align-items: center; }
+        #lightbox-img { max-width: 85%; max-height: 80vh; border: 3px solid white; border-radius: 4px; object-fit: contain; }
+        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3.5rem; cursor: pointer; transform: translateY(-50%); padding: 30px; user-select: none; }
+        .lb-prev { left: 10px; } .lb-next { right: 10px; }
+        .lb-close { position: absolute; top: 20px; right: 30px; color: white; font-size: 3rem; cursor: pointer; }
+
+        .btn-group { text-align: center; margin: 50px 0; }
+        .btn { padding: 16px 45px; border-radius: 50px; text-decoration: none; font-weight: bold; margin: 10px; display: inline-block; transition: 0.3s; }
+        .btn-airbnb { background: #FF5A5F; color: white; }
+        .btn-vrbo { background: #002f5d; color: white; }
+
+        footer { text-align: center; padding: 40px; background: #222; color: #888; }
+    </style>
+</head>
+<body>
+
+<section class="hero-viewport" id="hero-slider">
+    <div class="hero-bg-blur"></div>
+    <img class="hero-main-img" src="" alt="The 7C's Retreat">
+    <div class="hero-content">
+        <div class="hero-mobile-blur-bg"></div>
+        <h1>The 7C's Luxury Retreat</h1>
+        <p>Port Franks, Ontario — Your Private Sanctuary</p>
+    </div>
+</section>
+
+<div class="ratings-outer">
+    <div class="ratings-blur-bg" id="ratings-bg"></div>
+    <div class="ratings-container">
+        <div class="rating-box">
+            <span style="color:#FF5A5F; font-weight:900;">airbnb</span>
+            <span class="score">4.96 / 5.0</span>
+        </div>
+        <div class="rating-box">
+            <span style="color:#002f5d; font-weight:900;">Vrbo</span>
+            <span class="score">10 / 10</span>
+        </div>
+    </div>
+</div>
+
+<section class="reviews-section">
+    <h2>Guest Experiences</h2>
+    <div class="review-container" id="review-slider">
+        <div class="review-text active">"The kids had a blast in the game room and we loved the hot tub. Second time here and we'll be back!" <span class="reviewer-name">— Raechel</span></div>
+        <div class="review-text">"10/10! Perfect for two separate families. The house was spotless and the host was very responsive." <span class="reviewer-name">— Zoran</span></div>
+        <div class="review-text">"Amazing place for a family stay. The interactive game room kept children occupied for hours." <span class="reviewer-name">— Sarah</span></div>
+    </div>
+</section>
+
+<div class="container">
+    <h2>Property Amenities</h2>
+    <div class="amenity-section">
+        <div class="amenity-category-grid">
+            <div class="amenity-cat">
+                <h4><i class="fa fa-bed"></i> Sleeping</h4>
+                <ul>
+                    <li><i class="fa fa-check"></i> 5 Bedrooms (King Beds)</li>
+                    <li><i class="fa fa-check"></i> 6 Total Beds</li>
+                    <li><i class="fa fa-check"></i> Premium Linens Provided</li>
+                    <li><i class="fa fa-check"></i> Room-darkening shades</li>
+                </ul>
+            </div>
+            <div class="amenity-cat">
+                <h4><i class="fa fa-bath"></i> Wellness</h4>
+                <ul>
+                    <li><i class="fa fa-hot-tub"></i> Private 4-Season Hot Tub</li>
+                    <li><i class="fa fa-check"></i> 2 Full Bathrooms</li>
+                    <li><i class="fa fa-check"></i> Plush robes & towels</li>
+                    <li><i class="fa fa-check"></i> Hair dryer & Toiletries</li>
+                </ul>
+            </div>
+            <div class="amenity-cat">
+                <h4><i class="fa fa-gamepad"></i> Entertainment</h4>
+                <ul>
+                    <li><i class="fa fa-check"></i> Pro Games & Ent. Room</li>
+                    <li><i class="fa fa-check"></i> Arcade games & Table sports</li>
+                    <li><i class="fa fa-check"></i> 55" HDTV with Streaming</li>
+                    <li><i class="fa fa-check"></i> Fast Wifi (124 Mbps)</li>
+                </ul>
+            </div>
+            <div class="amenity-cat">
+                <h4><i class="fa fa-sun"></i> Outdoors</h4>
+                <ul>
+                    <li><i class="fa fa-check"></i> Private Beach Access</li>
+                    <li><i class="fa fa-check"></i> Fire Pit & Playground</li>
+                    <li><i class="fa fa-check"></i> BBQ Grill & Outdoor Dining</li>
+                    <li><i class="fa fa-check"></i> Hammocks & Porch Seating</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <h2>Nearby Adventures</h2>
+    <div class="guide-grid">
+        <div class="guide-card"><div class="guide-content"><span class="tag">5 MIN DRIVE</span><h4>Private Port Franks Beach</h4><p>Access the beautiful, quiet private beach. Pristine sand and world-class sunsets.</p></div></div>
+        <div class="guide-card"><div class="guide-content"><span class="tag">5 MIN DRIVE</span><h4>Sand Hills Golf Resort</h4><p>An 18-hole gem with a unique "Old West" clubhouse.</p></div></div>
+        <div class="guide-card"><div class="guide-content"><span class="tag">15 MIN DRIVE</span><h4>Grand Bend Strip</h4><p>The famous Main Street shops, boutiques, and high-energy beach strip.</p></div></div>
+        <div class="guide-card"><div class="guide-content"><span class="tag">WINERIES & BREWS</span><h4>Sip & Sample</h4><p>Near Shale Ridge Estate and Dark Horse Estate Winery.</p></div></div>
+        <div class="guide-card"><div class="guide-content"><span class="tag">10 MIN DRIVE</span><h4>Pinery Provincial Park</h4><p>Incredible hiking, biking, and canoeing for nature lovers.</p></div></div>
+        <div class="guide-card"><div class="guide-content"><span class="tag">LOCAL FAVORITE</span><h4>Grog’s Pub & Grill</h4><p>Famous for their Zaney Bread and pizzas—a Port Franks staple.</p></div></div>
+    </div>
+
+    <h2>Gallery</h2>
+    <div class="gallery-grid" id="main-gallery">
+        <img src="https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/5aac41da-0157-4232-b7c1-3c3a23323d90.jpeg?im_w=1200">
+        <img src="https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/a450f725-f81f-4209-acb7-0d443b0f898c.jpeg?im_w=1200">
+        <img src="https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/56abd9f4-c34f-4ac7-b2b6-054ade9ea37f.jpeg?im_w=1200">
+        <img src="https://a0.muscache.com/im/pictures/6683e8e8-5da4-466d-9e8a-70069af44bc8.jpg?im_w=1200">
+        <img src="https://a0.muscache.com/im/pictures/d4e9c0e8-1557-4fac-a795-9fd8d1a86699.jpg?im_w=1200">
+        <img src="https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/0b1062b5-82ad-4d40-9a25-97e3f8982a5c.jpeg?im_w=1200">
+    </div>
+
+    <div class="btn-group">
+        <a href="https://www.airbnb.ca/rooms/658827935035164558" class="btn btn-airbnb" target="_blank">Book on Airbnb</a>
+        <a href="https://www.vrbo.com/en-ca/cottage-rental/p9703894" class="btn btn-vrbo" target="_blank">Book on VRBO</a>
+    </div>
+</div>
+
+<div id="lightbox">
+    <span class="lb-close" onclick="closeLightbox()">&times;</span>
+    <span class="lb-btn lb-prev" onclick="changeImage(-1)">&#10094;</span>
+    <img id="lightbox-img" src="">
+    <span class="lb-btn lb-next" onclick="changeImage(1)">&#10095;</span>
+</div>
+
+<footer><p>&copy; 2025 The 7C's Luxury Retreat | Port Franks, Ontario</p></footer>
+
+<script>
+    let hI = 0, rI = 0;
+    const hPhotos = [
+        'https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/5aac41da-0157-4232-b7c1-3c3a23323d90.jpeg?im_w=1200',
+        'https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/a450f725-f81f-4209-acb7-0d443b0f898c.jpeg?im_w=1200',
+        'https://a0.muscache.com/im/pictures/miso/Hosting-658827935035164558/original/56abd9f4-c34f-4ac7-b2b6-054ade9ea37f.jpeg?im_w=1200'
+    ];
+    
+    const hv = document.getElementById('hero-slider');
+    const hb = hv.querySelector('.hero-bg-blur');
+    const hm = hv.querySelector('.hero-main-img');
+    const mobileBlur = hv.querySelector('.hero-mobile-blur-bg');
+    const ratingsBg = document.getElementById('ratings-bg');
+    const rs = document.querySelectorAll('.review-text');
+
+    function updateHero() {
+        hv.classList.remove('active');
+        setTimeout(() => {
+            const currentImg = hPhotos[hI];
+            const imgUrl = `url('${currentImg}')`;
+            
+            // Sync all blurred backgrounds
+            hb.style.backgroundImage = imgUrl; // Desktop Hero Sidebars
+            mobileBlur.style.backgroundImage = imgUrl; // Mobile Title Bar
+            ratingsBg.style.backgroundImage = imgUrl; // Global Ratings Background
+            
+            // Sync Main Clear Image
+            hm.src = currentImg;
+            
+            hv.classList.add('active');
+            hI = (hI + 1) % hPhotos.length;
+        }, 600);
+    }
+    
+    updateHero(); 
+    setInterval(updateHero, 5000);
+    setInterval(() => { rs[rI].classList.remove('active'); rI = (rI+1)%rs.length; rs[rI].classList.add('active'); }, 8000);
+
+    const imgs = Array.from(document.querySelectorAll('#main-gallery img')), lb = document.getElementById('lightbox'), lbI = document.getElementById('lightbox-img');
+    let cur = 0;
+    imgs.forEach((img, i) => { img.onclick = () => { cur = i; lb.style.display='flex'; lbI.src=img.src; document.body.style.overflow='hidden'; }; });
+    function closeLightbox() { lb.style.display='none'; document.body.style.overflow='auto'; }
+    function changeImage(n) { cur = (cur + n + imgs.length) % imgs.length; lbI.src = imgs[cur].src; }
+    lb.onclick = (e) => { if(e.target.id === 'lightbox') closeLightbox(); };
+</script>
+</body>
+</html>
