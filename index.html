@@ -17,22 +17,20 @@
             background: #000;
         }
 
-        /* The single unified blurred background */
         .unified-blur-bg {
             position: absolute;
             top: -10%; left: -5%; right: -5%; bottom: -5%;
             width: 110%; height: 115%;
             background-size: cover;
             background-position: center;
-            filter: blur(35px) brightness(0.5);
+            filter: blur(40px) brightness(0.45);
             z-index: 1;
             transition: background-image 1.2s ease-in-out;
         }
 
-        /* MAIN HERO VIEWPORT */
         .hero-viewport {
             position: relative;
-            height: 80vh;
+            height: 85vh;
             width: 100%;
             display: flex;
             flex-direction: column;
@@ -40,21 +38,24 @@
             z-index: 2;
         }
 
-        /* TITLE BOX - MOVED TO TOP */
+        /* REFINED TITLE BOX - OVERLAPPING TOP OF IMAGE */
         .hero-content {
-            margin-top: 40px;
+            margin-top: 30px;
+            margin-bottom: -35px; /* Pulls image up to overlap title */
             color: white;
             text-align: center;
-            padding: 15px 30px;
+            padding: 15px 35px;
             border-radius: 8px;
             backdrop-filter: blur(15px);
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.45);
             border: 1px solid rgba(255,255,255,0.2);
-            z-index: 10;
+            z-index: 10; /* Ensures title sits ON TOP of image */
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
         }
-        .hero-content h1 { font-size: 2.5rem; margin: 0; text-transform: none; letter-spacing: 1px; }
+        .hero-content h1 { font-size: 2.6rem; margin: 0; text-transform: none; letter-spacing: 1px; }
+        .hero-content p { font-size: 1.1rem; margin: 5px 0 0 0; opacity: 0.9; font-weight: 300; }
 
-        /* CENTERED CLEAR IMAGE */
+        /* IMAGE CONTAINER */
         .hero-main-img-container {
             flex-grow: 1;
             display: flex;
@@ -62,68 +63,72 @@
             justify-content: center;
             width: 100%;
             overflow: hidden;
-            padding: 20px 0;
+            padding-bottom: 20px;
         }
         .hero-main-img {
-            max-width: 95%;
-            max-height: 90%;
+            max-width: 92%;
+            max-height: 85%;
             object-fit: contain;
-            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            box-shadow: 0 25px 60px rgba(0,0,0,0.6);
             opacity: 0;
             transition: opacity 1.2s ease-in-out;
+            border-radius: 4px;
         }
         .hero-master-container.active .hero-main-img { opacity: 1; }
 
-        /* INTEGRATED RATINGS BAR (TOP LAYER) */
+        /* RATINGS BAR */
         .ratings-bar {
             position: relative;
             z-index: 3;
             display: flex;
             justify-content: center;
             gap: 30px;
-            padding: 40px 0 60px 0; /* Sits on top of the blurred background */
+            padding: 30px 0 60px 0;
         }
         .rating-box {
             background: rgba(255, 255, 255, 0.95);
-            padding: 15px 40px;
+            padding: 15px 45px;
             border-radius: 12px;
             text-align: center;
             border-bottom: 4px solid var(--accent);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
         .score { font-size: 1.6rem; font-weight: bold; color: var(--primary); display: block; }
 
-        /* MOBILE ADJUSTMENTS */
+        /* MOBILE OVERRIDES */
         @media (max-width: 768px) {
-            .hero-viewport { height: auto; min-height: 500px; }
-            .hero-content { margin-top: 20px; width: 90%; padding: 20px; box-sizing: border-box; }
+            .hero-viewport { height: auto; min-height: 520px; }
+            .hero-content { 
+                margin-top: 20px; 
+                margin-bottom: -25px; 
+                width: 85%; 
+                padding: 15px; 
+            }
             .hero-content h1 { font-size: 1.8rem; }
-            .hero-main-img { max-width: 100%; height: 300px; object-fit: cover; }
-            .ratings-bar { flex-direction: row; gap: 10px; padding: 20px 10px 40px 10px; }
-            .rating-box { padding: 10px; flex: 1; }
+            .hero-main-img { max-width: 100%; height: 320px; object-fit: cover; border-radius: 0; }
+            .ratings-bar { flex-direction: row; gap: 12px; padding: 10px 15px 50px 15px; }
+            .rating-box { padding: 12px; flex: 1; }
         }
 
-        /* REVIEWS & CONTENT */
-        .reviews-section { background: var(--primary); color: white; padding: 60px 20px; text-align: center; }
-        .review-container { max-width: 800px; margin: auto; height: 100px; position: relative; }
-        .review-text { position: absolute; width: 100%; opacity: 0; transition: 1s; font-style: italic; font-size: 1.1rem; }
+        /* REST OF CONTENT */
+        .reviews-section { background: var(--primary); color: white; padding: 70px 20px; text-align: center; }
+        .review-container { max-width: 800px; margin: auto; height: 120px; position: relative; display: flex; align-items: center; justify-content: center; }
+        .review-text { position: absolute; width: 100%; opacity: 0; transition: 1s; font-style: italic; font-size: 1.2rem; line-height: 1.5; }
         .review-text.active { opacity: 1; }
 
         .container { max-width: 1100px; margin: auto; padding: 60px 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
         
-        /* GALLERY */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; }
+        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: 0.3s; }
         .gallery-grid img.hidden { display: none; }
         
-        /* LIGHTBOX */
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); flex-direction: column; justify-content: center; align-items: center; }
-        #lightbox-img { max-width: 85%; max-height: 80vh; border: 3px solid white; object-fit: contain; }
-        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3rem; cursor: pointer; padding: 20px; transform: translateY(-50%); }
+        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); flex-direction: column; justify-content: center; align-items: center; }
+        #lightbox-img { max-width: 88%; max-height: 82vh; border: 4px solid white; object-fit: contain; border-radius: 2px; }
+        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3.5rem; cursor: pointer; padding: 20px; transform: translateY(-50%); user-select: none; }
 
-        footer { text-align: center; padding: 40px; background: #222; color: #888; }
+        footer { text-align: center; padding: 50px; background: #1a1a1a; color: #777; font-size: 0.9rem; }
     </style>
 </head>
 <body>
@@ -161,7 +166,7 @@
     <div class="grid">
         <div class="card">
             <h3><i class="fa fa-bed" style="color:var(--accent)"></i> Sleeping</h3>
-            <ul style="list-style:none; padding:0;">
+            <ul style="list-style:none; padding:0; line-height: 1.8;">
                 <li>5 Bedrooms (King Beds)</li>
                 <li>6 Total Beds</li>
                 <li>Premium Linens</li>
@@ -169,7 +174,7 @@
         </div>
         <div class="card">
             <h3><i class="fa fa-hot-tub" style="color:var(--accent)"></i> Wellness</h3>
-            <ul style="list-style:none; padding:0;">
+            <ul style="list-style:none; padding:0; line-height: 1.8;">
                 <li>Private 4-Season Hot Tub</li>
                 <li>2 Full Bathrooms</li>
                 <li>Plush Robes Provided</li>
@@ -177,7 +182,7 @@
         </div>
         <div class="card">
             <h3><i class="fa fa-gamepad" style="color:var(--accent)"></i> Entertainment</h3>
-            <ul style="list-style:none; padding:0;">
+            <ul style="list-style:none; padding:0; line-height: 1.8;">
                 <li>Pro Arcade & Game Room</li>
                 <li>55" HDTV Streaming</li>
                 <li>Fast 124 Mbps Wifi</li>
@@ -185,7 +190,7 @@
         </div>
         <div class="card">
             <h3><i class="fa fa-sun" style="color:var(--accent)"></i> Outdoors</h3>
-            <ul style="list-style:none; padding:0;">
+            <ul style="list-style:none; padding:0; line-height: 1.8;">
                 <li>Private Beach Access</li>
                 <li>Fire Pit & Playground</li>
                 <li>BBQ & Outdoor Dining</li>
@@ -205,28 +210,28 @@
 
     <h2 style="margin-top:60px;">Gallery</h2>
     <div class="gallery-grid" id="main-gallery"></div>
-    <div style="text-align:center; margin-top:30px;">
-        <button id="view-more-btn" style="padding:12px 40px; border:2px solid var(--accent); background:none; border-radius:50px; font-weight:bold; cursor:pointer;">View Full Gallery</button>
+    <div style="text-align:center; margin-top:40px;">
+        <button id="view-more-btn" style="padding:14px 45px; border:2px solid var(--accent); background:none; border-radius:50px; font-weight:bold; cursor:pointer; transition:0.3s;">View Full Gallery</button>
     </div>
 </div>
 
 <div id="lightbox">
-    <span style="position:absolute; top:20px; right:30px; color:white; font-size:3rem; cursor:pointer;" onclick="closeLightbox()">&times;</span>
-    <span class="lb-btn" style="left:10px;" onclick="changeImage(-1)">&#10094;</span>
+    <span style="position:absolute; top:25px; right:35px; color:white; font-size:3.5rem; cursor:pointer;" onclick="closeLightbox()">&times;</span>
+    <span class="lb-btn" style="left:15px;" onclick="changeImage(-1)">&#10094;</span>
     <img id="lightbox-img" src="">
-    <span class="lb-btn" style="right:10px;" onclick="changeImage(1)">&#10095;</span>
+    <span class="lb-btn" style="right:15px;" onclick="changeImage(1)">&#10095;</span>
 </div>
 
 <footer><p>&copy; 2025 The 7C's Luxury Retreat | Port Franks, Ontario</p></footer>
 
 <script>
-    // IMAGE LOGIC
+    // IMAGE CONFIGURATION
     const totalPhotos = 101;
     const missing = [70, 71];
     const photos = [];
     for(let i=1; i<=totalPhotos; i++){ if(!missing.includes(i)) photos.push(`images/${i}.jpg`); }
 
-    // Build Gallery (Show 6 initially)
+    // Build Gallery (Initially show 6)
     const gallery = document.getElementById('main-gallery');
     photos.forEach((url, i) => {
         const img = document.createElement('img');
@@ -238,7 +243,7 @@
 
     document.getElementById('view-more-btn').onclick = function() {
         document.querySelectorAll('.gallery-grid img.hidden').forEach(img => img.classList.remove('hidden'));
-        this.style.display = 'none';
+        this.parentElement.style.display = 'none';
     };
 
     // SYNCED SLIDESHOW
@@ -254,10 +259,10 @@
             blurBg.style.backgroundImage = url;
             mainImg.src = photos[hI];
             master.classList.add('active');
-            hI = (hI + 1) % 10; // Cycle first 10 for hero
+            hI = (hI + 1) % 12; // Cycle first 12 for hero
         }, 600);
     }
-    updateHero(); setInterval(updateHero, 5000);
+    updateHero(); setInterval(updateHero, 6000);
 
     // LIGHTBOX
     let cur = 0;
@@ -266,14 +271,14 @@
     function closeLightbox() { lb.style.display='none'; document.body.style.overflow='auto'; }
     function changeImage(n) { cur = (cur + n + photos.length) % photos.length; lbI.src = photos[cur]; }
 
-    // REVIEWS
+    // REVIEWS SLIDER
     let rI = 0;
     const revs = document.querySelectorAll('.review-text');
     setInterval(() => {
         revs[rI].classList.remove('active');
         rI = (rI + 1) % revs.length;
         revs[rI].classList.add('active');
-    }, 5000);
+    }, 6000);
 </script>
 </body>
 </html>
