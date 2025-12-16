@@ -9,78 +9,143 @@
         :root { --primary: #1a2a3a; --accent: #c5a059; --bg: #f4f7f6; --text: #333; }
         body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
 
-        /* HERO & SYNCED BLUR */
-        .hero-viewport { position: relative; height: 75vh; width: 100%; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; }
-        .hero-bg-blur { position: absolute; width: 110%; height: 110%; background-size: cover; background-position: center; filter: blur(25px) brightness(0.4); z-index: 1; opacity: 0; transition: opacity 1.2s ease-in-out; }
-        .hero-main-img { position: relative; z-index: 2; max-width: 100%; height: 100%; object-fit: contain; opacity: 0; transition: opacity 1.2s ease-in-out; }
-        .hero-viewport.active .hero-bg-blur, .hero-viewport.active .hero-main-img { opacity: 1; }
-        
-        .hero-content { position: absolute; z-index: 10; color: white; text-align: center; padding: 12px 25px; border-radius: 8px; backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.2); display: inline-block; max-width: 90%; background: rgba(0,0,0,0.5); }
-        .hero-content h1 { font-size: 2.8rem; margin: 0; text-transform: none; letter-spacing: 1px; line-height: 1.2; }
+        /* INTEGRATED BACKGROUND SYSTEM */
+        .hero-master-container {
+            position: relative;
+            width: 100%;
+            overflow: hidden;
+            background: #000;
+        }
 
-        /* RATINGS SYNCED BLUR */
-        .ratings-outer { position: relative; overflow: hidden; width: 100%; padding: 60px 0; display: flex; justify-content: center; z-index: 20; }
-        .ratings-blur-bg { position: absolute; top: -20%; left: -5%; right: -5%; bottom: -20%; background-size: cover; background-position: center; filter: blur(35px) brightness(0.6); z-index: -1; transition: background-image 1.2s ease-in-out; }
-        .rating-box { background: rgba(255, 255, 255, 0.95); padding: 20px 50px; border-radius: 12px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; border-bottom: 4px solid var(--accent); margin: 0 15px; min-width: 160px; }
-        .score { font-size: 1.8rem; font-weight: bold; color: var(--primary); display: block; margin-top: 5px;}
+        /* The single unified blurred background */
+        .unified-blur-bg {
+            position: absolute;
+            top: -10%; left: -5%; right: -5%; bottom: -5%;
+            width: 110%; height: 115%;
+            background-size: cover;
+            background-position: center;
+            filter: blur(35px) brightness(0.5);
+            z-index: 1;
+            transition: background-image 1.2s ease-in-out;
+        }
+
+        /* MAIN HERO VIEWPORT */
+        .hero-viewport {
+            position: relative;
+            height: 80vh;
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+        }
+
+        /* TITLE BOX - MOVED TO TOP */
+        .hero-content {
+            margin-top: 40px;
+            color: white;
+            text-align: center;
+            padding: 15px 30px;
+            border-radius: 8px;
+            backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 10;
+        }
+        .hero-content h1 { font-size: 2.5rem; margin: 0; text-transform: none; letter-spacing: 1px; }
+
+        /* CENTERED CLEAR IMAGE */
+        .hero-main-img-container {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            overflow: hidden;
+            padding: 20px 0;
+        }
+        .hero-main-img {
+            max-width: 95%;
+            max-height: 90%;
+            object-fit: contain;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 1.2s ease-in-out;
+        }
+        .hero-master-container.active .hero-main-img { opacity: 1; }
+
+        /* INTEGRATED RATINGS BAR (TOP LAYER) */
+        .ratings-bar {
+            position: relative;
+            z-index: 3;
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            padding: 40px 0 60px 0; /* Sits on top of the blurred background */
+        }
+        .rating-box {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 15px 40px;
+            border-radius: 12px;
+            text-align: center;
+            border-bottom: 4px solid var(--accent);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+        }
+        .score { font-size: 1.6rem; font-weight: bold; color: var(--primary); display: block; }
 
         /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
-            .hero-viewport { display: flex; flex-direction: column; height: auto; background: var(--bg); }
-            .hero-content { position: relative; width: 100%; border-radius: 0; padding: 40px 20px; box-sizing: border-box; order: 1; background: none; overflow: hidden; }
-            .hero-mobile-blur-bg { display: block; position: absolute; top: -10%; left: -10%; right: -10%; bottom: -10%; background-size: cover; background-position: center; filter: blur(20px) brightness(0.4); z-index: -1; transition: background-image 1.2s ease-in-out; }
-            .hero-main-img { position: relative; width: 100%; height: 350px; object-fit: cover; order: 2; opacity: 1 !important; }
-            .ratings-outer { order: 3; padding: 40px 10px; }
-            .rating-box { padding: 15px 10px; margin: 0 5px; flex: 1; min-width: 0; }
+            .hero-viewport { height: auto; min-height: 500px; }
+            .hero-content { margin-top: 20px; width: 90%; padding: 20px; box-sizing: border-box; }
+            .hero-content h1 { font-size: 1.8rem; }
+            .hero-main-img { max-width: 100%; height: 300px; object-fit: cover; }
+            .ratings-bar { flex-direction: row; gap: 10px; padding: 20px 10px 40px 10px; }
+            .rating-box { padding: 10px; flex: 1; }
         }
 
-        /* REVIEWS */
-        .reviews-section { background: var(--primary); color: white; padding: 80px 20px; text-align: center; }
-        .review-container { max-width: 850px; margin: auto; position: relative; min-height: 120px; }
-        .review-text { position: absolute; width: 100%; opacity: 0; transition: 1s; font-style: italic; font-size: 1.2rem; }
+        /* REVIEWS & CONTENT */
+        .reviews-section { background: var(--primary); color: white; padding: 60px 20px; text-align: center; }
+        .review-container { max-width: 800px; margin: auto; height: 100px; position: relative; }
+        .review-text { position: absolute; width: 100%; opacity: 0; transition: 1s; font-style: italic; font-size: 1.1rem; }
         .review-text.active { opacity: 1; }
 
-        /* CONTENT GRID */
         .container { max-width: 1100px; margin: auto; padding: 60px 20px; }
-        .amenity-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 30px; background: white; padding: 40px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
-        .amenity-cat h4 { color: var(--primary); border-bottom: 2px solid var(--accent); display: inline-block; margin-bottom: 15px; }
-        .amenity-cat ul { list-style: none; padding: 0; font-size: 0.9rem; }
-        .amenity-cat li { margin-bottom: 8px; }
-        .amenity-cat i { color: var(--accent); margin-right: 8px; }
-
-        .guide-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; margin-top: 40px; }
-        .guide-card { background: white; padding: 25px; border-radius: 12px; border: 1px solid #eee; }
-        .tag { background: #eef2f5; padding: 4px 12px; border-radius: 20px; font-size: 0.7rem; font-weight: bold; color: var(--primary); display: inline-block; margin-bottom: 10px; }
-
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+        
         /* GALLERY */
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; }
         .gallery-grid img.hidden { display: none; }
-        .view-more-container { text-align: center; margin: 30px 0; }
-        .view-more-btn { padding: 12px 40px; border: 2px solid var(--accent); background: none; border-radius: 50px; font-weight: bold; cursor: pointer; }
-
+        
         /* LIGHTBOX */
         #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.95); flex-direction: column; justify-content: center; align-items: center; }
         #lightbox-img { max-width: 85%; max-height: 80vh; border: 3px solid white; object-fit: contain; }
-        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3.5rem; cursor: pointer; padding: 30px; transform: translateY(-50%); user-select: none; }
+        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3rem; cursor: pointer; padding: 20px; transform: translateY(-50%); }
+
+        footer { text-align: center; padding: 40px; background: #222; color: #888; }
     </style>
 </head>
 <body>
 
-<section class="hero-viewport" id="hero-slider">
-    <div class="hero-bg-blur"></div>
-    <img class="hero-main-img" src="" alt="7Cs">
-    <div class="hero-content">
-        <div class="hero-mobile-blur-bg"></div>
-        <h1>The 7C's Luxury Retreat</h1>
-        <p>Port Franks, Ontario — Your Private Sanctuary</p>
-    </div>
-</section>
+<div class="hero-master-container" id="master-hero">
+    <div class="unified-blur-bg" id="main-blur"></div>
+    
+    <section class="hero-viewport">
+        <div class="hero-content">
+            <h1>The 7C's Luxury Retreat</h1>
+            <p>Port Franks, Ontario — Your Private Sanctuary</p>
+        </div>
+        
+        <div class="hero-main-img-container">
+            <img class="hero-main-img" id="hero-img" src="" alt="Cottage View">
+        </div>
+    </section>
 
-<div class="ratings-outer">
-    <div class="ratings-blur-bg" id="ratings-bg"></div>
-    <div class="rating-box"><span style="color:#FF5A5F; font-weight:900;">airbnb</span><span class="score">4.96 / 5.0</span></div>
-    <div class="rating-box"><span style="color:#002f5d; font-weight:900;">Vrbo</span><span class="score">10 / 10</span></div>
+    <div class="ratings-bar">
+        <div class="rating-box"><strong>Airbnb</strong><span class="score">4.96 / 5.0</span></div>
+        <div class="rating-box"><strong>VRBO</strong><span class="score">10 / 10</span></div>
+    </div>
 </div>
 
 <section class="reviews-section">
@@ -93,55 +158,55 @@
 
 <div class="container">
     <h2>Property Amenities</h2>
-    <div class="amenity-grid">
-        <div class="amenity-cat">
-            <h4><i class="fa fa-bed"></i> Sleeping</h4>
-            <ul>
-                <li><i class="fa fa-check"></i> 5 Bedrooms (King Beds)</li>
-                <li><i class="fa fa-check"></i> 6 Total Beds</li>
-                <li><i class="fa fa-check"></i> Premium Linens</li>
+    <div class="grid">
+        <div class="card">
+            <h3><i class="fa fa-bed" style="color:var(--accent)"></i> Sleeping</h3>
+            <ul style="list-style:none; padding:0;">
+                <li>5 Bedrooms (King Beds)</li>
+                <li>6 Total Beds</li>
+                <li>Premium Linens</li>
             </ul>
         </div>
-        <div class="amenity-cat">
-            <h4><i class="fa fa-hot-tub"></i> Wellness</h4>
-            <ul>
-                <li><i class="fa fa-check"></i> Private 4-Season Hot Tub</li>
-                <li><i class="fa fa-check"></i> 2 Full Bathrooms</li>
-                <li><i class="fa fa-check"></i> Plush robes & towels</li>
+        <div class="card">
+            <h3><i class="fa fa-hot-tub" style="color:var(--accent)"></i> Wellness</h3>
+            <ul style="list-style:none; padding:0;">
+                <li>Private 4-Season Hot Tub</li>
+                <li>2 Full Bathrooms</li>
+                <li>Plush Robes Provided</li>
             </ul>
         </div>
-        <div class="amenity-cat">
-            <h4><i class="fa fa-gamepad"></i> Entertainment</h4>
-            <ul>
-                <li><i class="fa fa-check"></i> Pro Games & Arcade Room</li>
-                <li><i class="fa fa-check"></i> 55" HDTV with Streaming</li>
-                <li><i class="fa fa-check"></i> Fast Wifi (124 Mbps)</li>
+        <div class="card">
+            <h3><i class="fa fa-gamepad" style="color:var(--accent)"></i> Entertainment</h3>
+            <ul style="list-style:none; padding:0;">
+                <li>Pro Arcade & Game Room</li>
+                <li>55" HDTV Streaming</li>
+                <li>Fast 124 Mbps Wifi</li>
             </ul>
         </div>
-        <div class="amenity-cat">
-            <h4><i class="fa fa-sun"></i> Outdoors</h4>
-            <ul>
-                <li><i class="fa fa-check"></i> Private Beach Access</li>
-                <li><i class="fa fa-check"></i> Fire Pit & Playground</li>
-                <li><i class="fa fa-check"></i> BBQ & Outdoor Dining</li>
+        <div class="card">
+            <h3><i class="fa fa-sun" style="color:var(--accent)"></i> Outdoors</h3>
+            <ul style="list-style:none; padding:0;">
+                <li>Private Beach Access</li>
+                <li>Fire Pit & Playground</li>
+                <li>BBQ & Outdoor Dining</li>
             </ul>
         </div>
     </div>
 
     <h2 style="margin-top:60px;">Nearby Adventures</h2>
-    <div class="guide-grid">
-        <div class="guide-card"><span class="tag">5 MIN DRIVE</span><h4>Port Franks Beach</h4><p>Pristine sand and world-class sunsets.</p></div>
-        <div class="guide-card"><span class="tag">5 MIN DRIVE</span><h4>Sand Hills Golf</h4><p>An 18-hole gem with a unique clubhouse.</p></div>
-        <div class="guide-card"><span class="tag">15 MIN DRIVE</span><h4>Grand Bend Strip</h4><p>Famous Main Street shops and nightlife.</p></div>
-        <div class="guide-card"><span class="tag">WINERIES</span><h4>Sip & Sample</h4><p>Near Shale Ridge and Dark Horse Wineries.</p></div>
-        <div class="guide-card"><span class="tag">10 MIN DRIVE</span><h4>Pinery Park</h4><p>Incredible hiking, biking, and canoeing.</p></div>
-        <div class="guide-card"><span class="tag">LOCAL FAVORITE</span><h4>Grog’s Pub</h4><p>Famous for pizzas and Zaney Bread.</p></div>
+    <div class="grid">
+        <div class="card"><strong>Port Franks Beach</strong><p>Pristine private sandy shores.</p></div>
+        <div class="card"><strong>Sand Hills Golf</strong><p>Unique 18-hole local course.</p></div>
+        <div class="card"><strong>Grand Bend Strip</strong><p>15 mins to shops and dining.</p></div>
+        <div class="card"><strong>Local Wineries</strong><p>Shale Ridge & Dark Horse.</p></div>
+        <div class="card"><strong>Pinery Park</strong><p>Nature trails and canoeing.</p></div>
+        <div class="card"><strong>Grog’s Pub</strong><p>Famous Zaney Bread & Pizza.</p></div>
     </div>
 
     <h2 style="margin-top:60px;">Gallery</h2>
     <div class="gallery-grid" id="main-gallery"></div>
-    <div class="view-more-container">
-        <button class="view-more-btn" id="view-more-trigger">View Full Gallery <i class="fa fa-arrow-right"></i></button>
+    <div style="text-align:center; margin-top:30px;">
+        <button id="view-more-btn" style="padding:12px 40px; border:2px solid var(--accent); background:none; border-radius:50px; font-weight:bold; cursor:pointer;">View Full Gallery</button>
     </div>
 </div>
 
@@ -155,12 +220,13 @@
 <footer><p>&copy; 2025 The 7C's Luxury Retreat | Port Franks, Ontario</p></footer>
 
 <script>
+    // IMAGE LOGIC
     const totalPhotos = 101;
     const missing = [70, 71];
     const photos = [];
-    for(let i=1; i<=totalPhotos; i++) { if(!missing.includes(i)) photos.push(`images/${i}.jpg`); }
+    for(let i=1; i<=totalPhotos; i++){ if(!missing.includes(i)) photos.push(`images/${i}.jpg`); }
 
-    // Build Gallery
+    // Build Gallery (Show 6 initially)
     const gallery = document.getElementById('main-gallery');
     photos.forEach((url, i) => {
         const img = document.createElement('img');
@@ -170,37 +236,37 @@
         gallery.appendChild(img);
     });
 
-    document.getElementById('view-more-trigger').onclick = function() {
+    document.getElementById('view-more-btn').onclick = function() {
         document.querySelectorAll('.gallery-grid img.hidden').forEach(img => img.classList.remove('hidden'));
-        this.parentElement.style.display = 'none';
+        this.style.display = 'none';
     };
 
-    // Slideshow & Synced Blur
+    // SYNCED SLIDESHOW
     let hI = 0;
-    const hv = document.getElementById('hero-slider'), hb = hv.querySelector('.hero-bg-blur'), hm = hv.querySelector('.hero-main-img'), mb = hv.querySelector('.hero-mobile-blur-bg'), rb = document.getElementById('ratings-bg');
+    const master = document.getElementById('master-hero');
+    const blurBg = document.getElementById('main-blur');
+    const mainImg = document.getElementById('hero-img');
 
     function updateHero() {
-        hv.classList.remove('active');
+        master.classList.remove('active');
         setTimeout(() => {
             const url = `url('${photos[hI]}')`;
-            hb.style.backgroundImage = url;
-            if(mb) mb.style.backgroundImage = url;
-            rb.style.backgroundImage = url;
-            hm.src = photos[hI];
-            hv.classList.add('active');
-            hI = (hI + 1) % 10;
+            blurBg.style.backgroundImage = url;
+            mainImg.src = photos[hI];
+            master.classList.add('active');
+            hI = (hI + 1) % 10; // Cycle first 10 for hero
         }, 600);
     }
     updateHero(); setInterval(updateHero, 5000);
 
-    // Lightbox
+    // LIGHTBOX
     let cur = 0;
     const lb = document.getElementById('lightbox'), lbI = document.getElementById('lightbox-img');
     function openLightbox(i) { cur = i; lb.style.display='flex'; lbI.src = photos[cur]; document.body.style.overflow='hidden'; }
     function closeLightbox() { lb.style.display='none'; document.body.style.overflow='auto'; }
     function changeImage(n) { cur = (cur + n + photos.length) % photos.length; lbI.src = photos[cur]; }
 
-    // Review Slider
+    // REVIEWS
     let rI = 0;
     const revs = document.querySelectorAll('.review-text');
     setInterval(() => {
