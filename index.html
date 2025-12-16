@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root { --primary: #1a2a3a; --accent: #c5a059; --bg: #f4f7f6; --text: #333; }
-        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; }
+        body { font-family: 'Helvetica Neue', Arial, sans-serif; margin: 0; background: var(--bg); color: var(--text); scroll-behavior: smooth; padding-bottom: 80px; }
 
         /* INTEGRATED BACKGROUND SYSTEM */
         .hero-master-container {
@@ -33,41 +33,24 @@
             height: 85vh;
             width: 100%;
             display: flex;
-            flex-direction: column;
+            justify-content: center;
             align-items: center;
             z-index: 2;
         }
 
-        /* REFINED TITLE BOX - OVERLAPPING TOP OF IMAGE */
-        .hero-content {
-            margin-top: 30px;
-            margin-bottom: -35px; /* Pulls image up to overlap title */
-            color: white;
-            text-align: center;
-            padding: 15px 35px;
-            border-radius: 8px;
-            backdrop-filter: blur(15px);
-            background: rgba(0,0,0,0.45);
-            border: 1px solid rgba(255,255,255,0.2);
-            z-index: 10; /* Ensures title sits ON TOP of image */
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-        .hero-content h1 { font-size: 2.6rem; margin: 0; text-transform: none; letter-spacing: 1px; }
-        .hero-content p { font-size: 1.1rem; margin: 5px 0 0 0; opacity: 0.9; font-weight: 300; }
-
         /* IMAGE CONTAINER */
         .hero-main-img-container {
-            flex-grow: 1;
+            position: relative;
+            width: 92%;
+            height: 85%;
             display: flex;
-            align-items: center;
             justify-content: center;
-            width: 100%;
-            overflow: hidden;
-            padding-bottom: 20px;
+            align-items: center;
         }
+
         .hero-main-img {
-            max-width: 92%;
-            max-height: 85%;
+            max-width: 100%;
+            max-height: 100%;
             object-fit: contain;
             box-shadow: 0 25px 60px rgba(0,0,0,0.6);
             opacity: 0;
@@ -75,6 +58,22 @@
             border-radius: 4px;
         }
         .hero-master-container.active .hero-main-img { opacity: 1; }
+
+        /* TITLE OVERLAPPING TOP OF IMAGE */
+        .hero-content {
+            position: absolute;
+            top: 20px; /* Positioned relative to the img container */
+            color: white;
+            text-align: center;
+            padding: 15px 35px;
+            border-radius: 8px;
+            backdrop-filter: blur(15px);
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 10;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        .hero-content h1 { font-size: 2.6rem; margin: 0; text-transform: none; letter-spacing: 1px; }
 
         /* RATINGS BAR */
         .ratings-bar {
@@ -93,42 +92,82 @@
             border-bottom: 4px solid var(--accent);
             box-shadow: 0 15px 35px rgba(0,0,0,0.25);
         }
-        .score { font-size: 1.6rem; font-weight: bold; color: var(--primary); display: block; }
 
-        /* MOBILE OVERRIDES */
+        /* FLOATING ACTION BAR (BOTTOM) */
+        .floating-booking-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: white;
+            padding: 15px 0;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 999;
+        }
+        .float-btn {
+            padding: 12px 25px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: bold;
+            color: white;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: transform 0.2s;
+        }
+        .float-btn:hover { transform: translateY(-3px); }
+        .float-airbnb { background: #FF5A5F; }
+        .float-vrbo { background: #002f5d; }
+
+        /* BACK TO TOP ARROW */
+        #back-to-top {
+            position: fixed;
+            bottom: 85px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.3s;
+            z-index: 998;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+        #back-to-top.visible { opacity: 1; }
+
+        /* MOBILE ADJUSTMENTS */
         @media (max-width: 768px) {
-            .hero-viewport { height: auto; min-height: 520px; }
-            .hero-content { 
-                margin-top: 20px; 
-                margin-bottom: -25px; 
-                width: 85%; 
-                padding: 15px; 
-            }
-            .hero-content h1 { font-size: 1.8rem; }
-            .hero-main-img { max-width: 100%; height: 320px; object-fit: cover; border-radius: 0; }
-            .ratings-bar { flex-direction: row; gap: 12px; padding: 10px 15px 50px 15px; }
-            .rating-box { padding: 12px; flex: 1; }
+            .hero-viewport { height: 60vh; }
+            .hero-main-img { object-fit: cover; height: 100%; width: 100%; border-radius: 0; }
+            .hero-content { top: 10px; width: 85%; padding: 10px; }
+            .hero-content h1 { font-size: 1.6rem; }
+            .ratings-bar { flex-direction: row; gap: 10px; padding: 20px 15px; }
+            .rating-box { padding: 10px; flex: 1; font-size: 0.8rem; }
+            .float-btn { padding: 10px 15px; font-size: 0.8rem; }
         }
 
-        /* REST OF CONTENT */
-        .reviews-section { background: var(--primary); color: white; padding: 70px 20px; text-align: center; }
-        .review-container { max-width: 800px; margin: auto; height: 120px; position: relative; display: flex; align-items: center; justify-content: center; }
-        .review-text { position: absolute; width: 100%; opacity: 0; transition: 1s; font-style: italic; font-size: 1.2rem; line-height: 1.5; }
-        .review-text.active { opacity: 1; }
-
+        /* GALLERY & CONTENT */
         .container { max-width: 1100px; margin: auto; padding: 60px 20px; }
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 25px; }
-        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); border: 1px solid #eee; }
-        
+        .card { background: white; padding: 30px; border-radius: 12px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
         .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 15px; }
-        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; transition: 0.3s; }
+        .gallery-grid img { width: 100%; height: 250px; object-fit: cover; border-radius: 10px; cursor: pointer; }
         .gallery-grid img.hidden { display: none; }
         
-        #lightbox { display: none; position: fixed; z-index: 9999; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); flex-direction: column; justify-content: center; align-items: center; }
-        #lightbox-img { max-width: 88%; max-height: 82vh; border: 4px solid white; object-fit: contain; border-radius: 2px; }
-        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3.5rem; cursor: pointer; padding: 20px; transform: translateY(-50%); user-select: none; }
+        #lightbox { display: none; position: fixed; z-index: 10000; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.96); flex-direction: column; justify-content: center; align-items: center; }
+        #lightbox-img { max-width: 88%; max-height: 82vh; border: 4px solid white; object-fit: contain; }
+        .lb-btn { position: absolute; top: 50%; color: white; font-size: 3.5rem; cursor: pointer; transform: translateY(-50%); padding: 20px; }
 
-        footer { text-align: center; padding: 50px; background: #1a1a1a; color: #777; font-size: 0.9rem; }
+        footer { text-align: center; padding: 50px; background: #1a1a1a; color: #777; }
     </style>
 </head>
 <body>
@@ -137,83 +176,43 @@
     <div class="unified-blur-bg" id="main-blur"></div>
     
     <section class="hero-viewport">
-        <div class="hero-content">
-            <h1>The 7C's Luxury Retreat</h1>
-            <p>Port Franks, Ontario — Your Private Sanctuary</p>
-        </div>
-        
         <div class="hero-main-img-container">
+            <div class="hero-content">
+                <h1>The 7C's Luxury Retreat</h1>
+                <p>Port Franks, Ontario — Your Private Sanctuary</p>
+            </div>
             <img class="hero-main-img" id="hero-img" src="" alt="Cottage View">
         </div>
     </section>
 
     <div class="ratings-bar">
-        <div class="rating-box"><strong>Airbnb</strong><span class="score">4.96 / 5.0</span></div>
-        <div class="rating-box"><strong>VRBO</strong><span class="score">10 / 10</span></div>
+        <div class="rating-box"><strong>Airbnb</strong><br>4.96 / 5.0</div>
+        <div class="rating-box"><strong>VRBO</strong><br>10 / 10</div>
     </div>
 </div>
-
-<section class="reviews-section">
-    <div class="review-container">
-        <div class="review-text active">"The kids had a blast in the game room and we loved the hot tub. Second time here!" <br><strong>— Raechel</strong></div>
-        <div class="review-text">"10/10! Perfect for two separate families. Spotless and very responsive host." <br><strong>— Zoran</strong></div>
-        <div class="review-text">"Amazing place for a family stay. The game room kept children occupied for hours." <br><strong>— Sarah</strong></div>
-    </div>
-</section>
 
 <div class="container">
     <h2>Property Amenities</h2>
     <div class="grid">
-        <div class="card">
-            <h3><i class="fa fa-bed" style="color:var(--accent)"></i> Sleeping</h3>
-            <ul style="list-style:none; padding:0; line-height: 1.8;">
-                <li>5 Bedrooms (King Beds)</li>
-                <li>6 Total Beds</li>
-                <li>Premium Linens</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3><i class="fa fa-hot-tub" style="color:var(--accent)"></i> Wellness</h3>
-            <ul style="list-style:none; padding:0; line-height: 1.8;">
-                <li>Private 4-Season Hot Tub</li>
-                <li>2 Full Bathrooms</li>
-                <li>Plush Robes Provided</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3><i class="fa fa-gamepad" style="color:var(--accent)"></i> Entertainment</h3>
-            <ul style="list-style:none; padding:0; line-height: 1.8;">
-                <li>Pro Arcade & Game Room</li>
-                <li>55" HDTV Streaming</li>
-                <li>Fast 124 Mbps Wifi</li>
-            </ul>
-        </div>
-        <div class="card">
-            <h3><i class="fa fa-sun" style="color:var(--accent)"></i> Outdoors</h3>
-            <ul style="list-style:none; padding:0; line-height: 1.8;">
-                <li>Private Beach Access</li>
-                <li>Fire Pit & Playground</li>
-                <li>BBQ & Outdoor Dining</li>
-            </ul>
-        </div>
-    </div>
-
-    <h2 style="margin-top:60px;">Nearby Adventures</h2>
-    <div class="grid">
-        <div class="card"><strong>Port Franks Beach</strong><p>Pristine private sandy shores.</p></div>
-        <div class="card"><strong>Sand Hills Golf</strong><p>Unique 18-hole local course.</p></div>
-        <div class="card"><strong>Grand Bend Strip</strong><p>15 mins to shops and dining.</p></div>
-        <div class="card"><strong>Local Wineries</strong><p>Shale Ridge & Dark Horse.</p></div>
-        <div class="card"><strong>Pinery Park</strong><p>Nature trails and canoeing.</p></div>
-        <div class="card"><strong>Grog’s Pub</strong><p>Famous Zaney Bread & Pizza.</p></div>
+        <div class="card"><h3><i class="fa fa-bed"></i> Sleeping</h3><p>5 Bedrooms (King Beds), 6 Total Beds, Premium Linens.</p></div>
+        <div class="card"><h3><i class="fa fa-hot-tub"></i> Wellness</h3><p>Private 4-Season Hot Tub, 2 Full Bathrooms, Plush Robes.</p></div>
+        <div class="card"><h3><i class="fa fa-gamepad"></i> Entertainment</h3><p>Pro Arcade Room, 55" HDTV, Fast Wifi.</p></div>
+        <div class="card"><h3><i class="fa fa-sun"></i> Outdoors</h3><p>Private Beach, Fire Pit, BBQ & Outdoor Dining.</p></div>
     </div>
 
     <h2 style="margin-top:60px;">Gallery</h2>
     <div class="gallery-grid" id="main-gallery"></div>
     <div style="text-align:center; margin-top:40px;">
-        <button id="view-more-btn" style="padding:14px 45px; border:2px solid var(--accent); background:none; border-radius:50px; font-weight:bold; cursor:pointer; transition:0.3s;">View Full Gallery</button>
+        <button id="view-more-btn" style="padding:14px 45px; border:2px solid var(--accent); background:none; border-radius:50px; font-weight:bold; cursor:pointer;">View Full Gallery</button>
     </div>
 </div>
+
+<div class="floating-booking-bar">
+    <a href="https://www.airbnb.ca/rooms/658827935035164558" class="float-btn float-airbnb" target="_blank"><i class="fab fa-airbnb"></i> Book on Airbnb</a>
+    <a href="https://www.vrbo.com/en-ca/cottage-rental/p9703894" class="float-btn float-vrbo" target="_blank"><i class="fas fa-home"></i> Book on VRBO</a>
+</div>
+
+<div id="back-to-top" onclick="window.scrollTo(0,0)"><i class="fas fa-chevron-up"></i></div>
 
 <div id="lightbox">
     <span style="position:absolute; top:25px; right:35px; color:white; font-size:3.5rem; cursor:pointer;" onclick="closeLightbox()">&times;</span>
@@ -225,13 +224,12 @@
 <footer><p>&copy; 2025 The 7C's Luxury Retreat | Port Franks, Ontario</p></footer>
 
 <script>
-    // IMAGE CONFIGURATION
     const totalPhotos = 101;
     const missing = [70, 71];
     const photos = [];
     for(let i=1; i<=totalPhotos; i++){ if(!missing.includes(i)) photos.push(`images/${i}.jpg`); }
 
-    // Build Gallery (Initially show 6)
+    // Build Gallery
     const gallery = document.getElementById('main-gallery');
     photos.forEach((url, i) => {
         const img = document.createElement('img');
@@ -246,12 +244,9 @@
         this.parentElement.style.display = 'none';
     };
 
-    // SYNCED SLIDESHOW
+    // Slideshow
     let hI = 0;
-    const master = document.getElementById('master-hero');
-    const blurBg = document.getElementById('main-blur');
-    const mainImg = document.getElementById('hero-img');
-
+    const master = document.getElementById('master-hero'), blurBg = document.getElementById('main-blur'), mainImg = document.getElementById('hero-img');
     function updateHero() {
         master.classList.remove('active');
         setTimeout(() => {
@@ -259,26 +254,24 @@
             blurBg.style.backgroundImage = url;
             mainImg.src = photos[hI];
             master.classList.add('active');
-            hI = (hI + 1) % 12; // Cycle first 12 for hero
+            hI = (hI + 1) % 12;
         }, 600);
     }
     updateHero(); setInterval(updateHero, 6000);
 
-    // LIGHTBOX
+    // Lightbox
     let cur = 0;
     const lb = document.getElementById('lightbox'), lbI = document.getElementById('lightbox-img');
     function openLightbox(i) { cur = i; lb.style.display='flex'; lbI.src = photos[cur]; document.body.style.overflow='hidden'; }
     function closeLightbox() { lb.style.display='none'; document.body.style.overflow='auto'; }
     function changeImage(n) { cur = (cur + n + photos.length) % photos.length; lbI.src = photos[cur]; }
 
-    // REVIEWS SLIDER
-    let rI = 0;
-    const revs = document.querySelectorAll('.review-text');
-    setInterval(() => {
-        revs[rI].classList.remove('active');
-        rI = (rI + 1) % revs.length;
-        revs[rI].classList.add('active');
-    }, 6000);
+    // Scroll Effects
+    window.onscroll = function() {
+        const btt = document.getElementById('back-to-top');
+        if (window.pageYOffset > 500) { btt.classList.add('visible'); } 
+        else { btt.classList.remove('visible'); }
+    };
 </script>
 </body>
 </html>
